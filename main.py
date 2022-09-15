@@ -50,7 +50,10 @@ async def show():
                         print(jsondata)
                         if "meta" in jsondata:
                             try:
-                                notrack = untracked(jsondata["meta"]["detail_1"]["qqdocurl"])
+                                if jsondata["app"] == "com.tencent.structmsg":
+                                    notrack = untracked(jsondata["meta"]["news"]["jumpUrl"])
+                                if jsondata["app"] == "com.tencent.miniapp_01":
+                                    notrack = untracked(jsondata["meta"]["detail_1"]["qqdocurl"])
                             except:
                                 notrack = "error"
                             await websocket.send(json.dumps({"action": "send_group_msg", "params": {"group_id": str_loaded["group_id"], "message": notrack}}))
